@@ -13,7 +13,7 @@ class SepetController extends GetxController {
     for (var item in _sepetRowModel) {
       if (item.product.id == product.id) {
         item.quentity++;
-        total.value += (product.price ?? 0);
+        total.value += (item.product.price ?? 0);
         return;
       }
     }
@@ -32,7 +32,31 @@ class SepetController extends GetxController {
     return 0;
   }
 
-  void removeProduct(ProductModel product) {}
+  void removeProduct(ProductModel product) {
+    for (var item in _sepetRowModel) {
+      if (item.product.id == product.id) {
+        total.value -= (item.product.price ?? 0);
+        item.quentity--;
+        if (item.quentity == 0) {
+          _sepetRowModel.remove(item);
+        }
+
+        return;
+      }
+    }
+  }
 
   List<SepetRowModel> get sepetRowModel => _sepetRowModel;
+
+  void removeAllProduct(ProductModel product) {
+    for (var item in _sepetRowModel) {
+      if (item.product.id == product.id) {
+        total.value -= ((item.product.price ?? 0) * item.quentity);
+
+        _sepetRowModel.remove(item);
+
+        return;
+      }
+    }
+  }
 }

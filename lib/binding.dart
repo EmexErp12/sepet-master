@@ -7,6 +7,6 @@ class Binding implements Bindings {
   @override
   void dependencies() {
     Get.put<ProductConttroller>(ProductConttroller());
-    Get.lazyPut<SepetController>(() => SepetController());
+    Get.put<SepetController>(SepetController());
   }
 }
