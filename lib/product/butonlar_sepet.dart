@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:sepet/product/product_model.dart';
-import 'package:sepet/sepet/sepet_controller.dart';
+import '../sepet/sepet_controller.dart';
+import 'product_model.dart';
 
 class ButonlarSepet extends StatefulWidget {
   final ProductModel model;

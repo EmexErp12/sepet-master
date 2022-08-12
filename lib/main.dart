@@ -20,8 +20,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: AppConstants.appName,
       theme: ThemeData(
+        brightness: Brightness.dark,
         fontFamily: AppConstants.fontFamily,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: const ProductView(),
     );

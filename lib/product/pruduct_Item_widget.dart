@@ -10,7 +10,6 @@ import 'package:sepet/product/butonlar_sepet.dart';
 import '../components/price_widget.dart';
 import 'product_controller.dart';
 import 'product_model.dart';
-import '../sepet/sepet_controller.dart';
 import '../utilities/app_constants.dart';
 
 class PruductItemWidget extends StatelessWidget {
@@ -26,7 +25,7 @@ class PruductItemWidget extends StatelessWidget {
 
     var product = productConttroller.list[index];
 
-    log(product.title!);
+    log(product.title);
 
     return Stack(
       children: [
@@ -44,25 +43,33 @@ class PruductItemWidget extends StatelessWidget {
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 108),
       child: Card(
-        child: Column(mainAxisSize: MainAxisSize.max, children: [
-          Padding(
-            padding: AppConstants.padding,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Text(
-                    product.title ?? '',
-                    style: const TextStyle(fontSize: 18),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 6, top: 6, right: 46, bottom: 6),
+              child: AutoSizeText(
+                product.title,
+                style: const TextStyle(fontSize: 16),
+                maxLines: 3,
+                minFontSize: 12,
+                maxFontSize: 30,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-          PriceWidget(price: product.price ?? 0)
-        ]),
+            Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: AppConstants.padding,
+                  child: PriceWidget(
+                    price: product.price ?? 0,
+                    isBold: true,
+                    fontColor: Colors.blue.shade700,
+                  ),
+                ))
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../components/basket_widget.dart';
 import '../components/price_widget.dart';
 import 'product_controller.dart';
 import '../sepet/sepet_controller.dart';
@@ -17,11 +18,7 @@ class ProductView extends StatelessWidget {
         title: const Text(AppConstants.appName),
         actions: [
           GetX<SepetController>(
-            builder: (controller) => controller.total.value > 0
-                ? PriceWidget(
-                    price: controller.total.value,
-                  )
-                : const SizedBox(width: 1),
+            builder: (controller) => controller.total.value > 0 ? const BasketWidget() : const SizedBox(),
           ),
         ],
       ),
@@ -29,7 +26,10 @@ class ProductView extends StatelessWidget {
         children: [
           Expanded(
             child: Obx(
-              () => ListView.builder(
+              () => GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: context.isLandscape ? 5 : 3,
+                  ),
                   itemCount: productConttroller.list.length,
                   itemBuilder: (context, index) {
                     return PruductItemWidget(index: index);
@@ -41,7 +41,7 @@ class ProductView extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: controller.total.value > 0
                   ? PriceWidget(price: controller.total.value, liraSize: 30, kurusSize: 16)
-                  : const SizedBox(height: 1),
+                  : const SizedBox(),
             );
           }),
         ],

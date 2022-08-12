@@ -10,7 +10,13 @@ class ProductRepository {
 
     if (null != gelenString) {
       var json = jsonDecode(gelenString);
+
       var products = json['products'] as List;
+
+      products.sort((a, b) => a['title'].compareTo(b['title']));
+
+      products.reversed.toList();
+
       return products.map((product) => ProductModel.fromJson(product)).toList();
     } else {
       return <ProductModel>[];

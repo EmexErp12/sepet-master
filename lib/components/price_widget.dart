@@ -6,12 +6,16 @@ class PriceWidget extends StatelessWidget {
   final double price;
   final double liraSize;
   final double kurusSize;
+  final Color? fontColor;
+  final bool isBold;
 
   const PriceWidget({
     Key? key,
     required this.price,
     this.liraSize = 18,
     this.kurusSize = 12,
+    this.fontColor,
+    this.isBold = false,
   }) : super(key: key);
 
   @override
@@ -31,19 +35,33 @@ class PriceWidget extends StatelessWidget {
       children: [
         Text(
           lira,
-          style: TextStyle(fontFamily: 'TRY', fontSize: liraSize),
+          style: TextStyle(
+              fontFamily: 'TRY',
+              fontSize: liraSize,
+              color: fontColor,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
-        const Padding(
-          padding: EdgeInsets.only(bottom: 3),
-          child: Text(','),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 3),
+          child: Text(
+            ',',
+            style: TextStyle(
+              color: fontColor,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 3),
           child: Text(
             kurus,
-            style: TextStyle(fontSize: kurusSize),
+            style: TextStyle(
+              fontSize: kurusSize,
+              color: fontColor,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
