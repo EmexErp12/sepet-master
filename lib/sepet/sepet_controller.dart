@@ -5,12 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:sepet/sepet/sepet_model.dart';
 import 'package:sepet/sepet/sepet_row_model.dart';
+import 'package:sepet/utilities/app_constants.dart';
 
 import '../product/product_model.dart';
 import '../utilities/extensions.dart';
 
 class SepetController extends ChangeNotifier {
-  late SepetModel sepet = SepetModel();
+  SepetModel sepet = SepetModel();
 
   SepetController() {
     _getSepetValue();
@@ -78,7 +79,7 @@ class SepetController extends ChangeNotifier {
 
   void _getSepetValue() {
     _getHive().then((value) {
-      if (value != null) {
+      if (null != value) {
         sepet = SepetModel.fromJson(value);
         notifyListeners();
       }
@@ -86,15 +87,18 @@ class SepetController extends ChangeNotifier {
   }
 
   Future<void> _saveHive() async {
-    var box = await Hive.openBox('sepet');
+    var box = await Hive.openBox(AppConstants.hiveSepetKey);
     var json = sepet.toJson();
-    box.put("sepet", jsonEncode(json));
+    box.put(AppConstants.hiveSepetKey, jsonEncode(json));
   }
 
   Future<Map<String, dynamic>?> _getHive() async {
-    var box = await Hive.openBox('sepet');
-    var str = box.get("sepet");
-    return jsonDecode(str);
+    var box = await Hive.openBox(AppConstants.hiveSepetKey);
+    var value = box.get(AppConstants.hiveSepetKey);
+    if (value != null) {
+      return jsonDecode(value);
+    }
+    return null;
   }
 }
 
