@@ -12,4 +12,6 @@ class AppConstants {
   static var format = NumberFormat.currency(locale: 'tr-TR', decimalDigits: decimalDigitCount, symbol: currency);
 
   static const String fontFamily = 'BrandonText';
+
+  static const String hiveSepetKey = 'hiveSepetKey';
 }
