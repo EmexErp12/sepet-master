@@ -4,27 +4,21 @@ import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sepet/product/butonlar_sepet.dart';
 
 import '../components/price_widget.dart';
-import 'product_controller.dart';
-import 'product_model.dart';
 import '../utilities/app_constants.dart';
+import 'product_model.dart';
 
 class PruductItemWidget extends StatelessWidget {
-  final int index;
+  final ProductModel product;
   const PruductItemWidget({
-    required this.index,
     Key? key,
+    required this.product,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ProductConttroller productConttroller = Get.find();
-
-    var product = productConttroller.list[index];
-
     log(product.title);
 
     return Stack(

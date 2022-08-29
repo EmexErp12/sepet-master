@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../sepet/sepet_controller.dart';
 import 'product_model.dart';
 
-class ButonlarSepet extends StatefulWidget {
+class ButonlarSepet extends ConsumerWidget {
   final ProductModel model;
 
   const ButonlarSepet({
@@ -15,15 +15,9 @@ class ButonlarSepet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ButonlarSepet> createState() => _ButonlarSepetState();
-}
-
-class _ButonlarSepetState extends State<ButonlarSepet> {
-  @override
-  Widget build(BuildContext context) {
-    SepetController sepetController = Get.find();
-
-    var sepetItemCout = sepetController.getItemCount(widget.model);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(sepetProvider);
+    var sepetItemCout = provider.getItemCount(model);
 
     return Card(
       child: SizedBox(
@@ -32,8 +26,7 @@ class _ButonlarSepetState extends State<ButonlarSepet> {
           children: [
             InkWell(
               onTap: () {
-                sepetController.addProduct(widget.model);
-                setState(() {});
+                provider.addProduct(model);
               },
               child: const SizedBox(
                 height: 40,
@@ -47,13 +40,12 @@ class _ButonlarSepetState extends State<ButonlarSepet> {
               visible: sepetItemCout > 0,
               child: GestureDetector(
                 onTap: () {
-                  sepetController.addProduct(widget.model);
-                  setState(() {});
+                  provider.addProduct(model);
                 },
                 child: SizedBox(
                   height: 30,
                   child: Center(
-                    child: quentity(sepetController),
+                    child: quentity(ref),
                   ),
                 ),
               ),
@@ -62,12 +54,10 @@ class _ButonlarSepetState extends State<ButonlarSepet> {
               visible: sepetItemCout > 0,
               child: GestureDetector(
                 onTap: () {
-                  sepetController.removeProduct(widget.model);
-                  setState(() {});
+                  provider.removeProduct(model);
                 },
                 onLongPress: () {
-                  sepetController.removeAllProduct(widget.model);
-                  setState(() {});
+                  provider.removeAllProduct(model);
                 },
                 child: SizedBox(
                   height: 30,
@@ -84,8 +74,9 @@ class _ButonlarSepetState extends State<ButonlarSepet> {
     );
   }
 
-  Widget quentity(SepetController sepetController) {
-    var quentity = sepetController.getItemCount(widget.model);
+  Widget quentity(WidgetRef ref) {
+    final provider = ref.read(sepetProvider);
+    var quentity = provider.getItemCount(model);
     return quentity > 0
         ? AutoSizeText(
             quentity.toString(),

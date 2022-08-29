@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'product/product_view.dart';
 import 'utilities/app_constants.dart';
 
-import 'binding.dart';
-
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  await Hive.initFlutter();
+  runApp(
+    const ProviderScope(child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,8 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      initialBinding: Binding(),
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: AppConstants.appName,
       theme: ThemeData(
