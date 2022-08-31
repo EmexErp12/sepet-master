@@ -47,17 +47,44 @@ class SepetController extends ChangeNotifier {
   }
 
   void removeProduct(ProductModel product) {
+    // for (int i = sepet.sepetRowModel!.length - 1; i >= 0; i--) {
+    //   var item = sepet.sepetRowModel![i];
+    //   if (item.product.id == product.id) {
+    //     sepet.total -= (item.product.price ?? 0);
+    //     item.quentity--;
+    //     if (item.quentity == 0) {
+    //       sepet.sepetRowModel!.remove(item);
+    //       break;
+    //     }
+    //   }
+    // }
+
+    // notifyListeners();
+    // _saveHive();
+
+    // var removedItems = <SepetRowModel>[];
+
     for (var item in sepet.sepetRowModel!) {
       if (item.product.id == product.id) {
         sepet.total -= (item.product.price ?? 0);
         item.quentity--;
         if (item.quentity == 0) {
           sepet.sepetRowModel!.remove(item);
+          break;
         }
-        notifyListeners();
-        _saveHive();
       }
     }
+
+    notifyListeners();
+    _saveHive();
+
+    // if (removedItems.isNotEmpty) {
+    //   for (var item in removedItems) {
+    //     if (sepet.sepetRowModel!.contains(item)) {
+    //       sepet.sepetRowModel!.remove(item);
+    //     }
+    //   }
+    // }
   }
 
   void removeAllProduct(ProductModel product) {
@@ -67,6 +94,7 @@ class SepetController extends ChangeNotifier {
       if (item.product.id == product.id) {
         sepet.total -= ((item.product.price ?? 0) * item.quentity);
         removedItems.add(item);
+        break;
       }
     }
 

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:sepet/product/product_model.dart';
 import 'package:sepet/sepet/basket_list_view.dart';
@@ -16,7 +18,22 @@ class ProductView extends StatefulWidget {
   State<ProductView> createState() => _ProductViewState();
 }
 
+// Stream<int> getRandomValues() async* {
+//   var random = Random(2);
+
+//   while (true) {
+//     await Future.delayed(const Duration(seconds: 1));
+//     yield random.nextInt(100);
+//   }
+
+// }
+
 class _ProductViewState extends State<ProductView> {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,13 +71,25 @@ class _ProductViewState extends State<ProductView> {
                         return PruductItemWidget(product: data[index]);
                       });
                 },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, stack) => Text('Error: $err'),
+                loading: () {
+                  return const Center(child: CircularProgressIndicator());
+                },
+                error: (err, stack) {
+                  return Text('Error: $err');
+                },
               ),
             );
           }),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: StreamBuilder(
+              initialData: 'ali',
+              stream: null, //getRandomValues(),
+              builder: (context, snapshot) {
+                return Text('${snapshot.data}');
+              })),
     );
   }
 }
