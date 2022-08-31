@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sepet/sepet/sepet_model.dart';
 import 'package:sepet/sepet/sepet_row_model.dart';
 import 'package:sepet/utilities/app_constants.dart';
