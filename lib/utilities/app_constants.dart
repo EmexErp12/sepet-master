@@ -1,8 +1,11 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:intl/intl.dart';
+import 'package:sepet/utilities/enums.dart';
 
 class AppConstants {
+  static serviceType service = serviceType.HIVE;
+
   static const String appName = 'Sepet';
 
   static const EdgeInsets padding = EdgeInsets.all(6.0);

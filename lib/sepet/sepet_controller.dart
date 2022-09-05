@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:sepet/sepet/sepet_model.dart';
 import 'package:sepet/sepet/sepet_row_model.dart';
+import 'package:sepet/service/factory_service.dart';
+import 'package:sepet/service/i_service.dart';
 import 'package:sepet/utilities/app_constants.dart';
 
 import '../product/product_model.dart';
@@ -12,6 +14,8 @@ import '../utilities/extensions.dart';
 
 class SepetController extends ChangeNotifier {
   SepetModel sepet = SepetModel();
+
+  final IService _iservice = FactoryService.instance();
 
   SepetController() {
     _getSepetValue();
@@ -23,7 +27,7 @@ class SepetController extends ChangeNotifier {
         item.quentity++;
         sepet.total += (item.product.price ?? 0);
         notifyListeners();
-        _saveHive();
+        _iservice.save(sepet.toJson());
 
         return;
       }
@@ -33,7 +37,7 @@ class SepetController extends ChangeNotifier {
 
     sepet.total += (product.price ?? 0).roundDecimal();
     notifyListeners();
-    _saveHive();
+    _iservice.save(sepet.toJson());
   }
 
   int getItemCount(ProductModel productModel) {
@@ -47,23 +51,6 @@ class SepetController extends ChangeNotifier {
   }
 
   void removeProduct(ProductModel product) {
-    // for (int i = sepet.sepetRowModel!.length - 1; i >= 0; i--) {
-    //   var item = sepet.sepetRowModel![i];
-    //   if (item.product.id == product.id) {
-    //     sepet.total -= (item.product.price ?? 0);
-    //     item.quentity--;
-    //     if (item.quentity == 0) {
-    //       sepet.sepetRowModel!.remove(item);
-    //       break;
-    //     }
-    //   }
-    // }
-
-    // notifyListeners();
-    // _saveHive();
-
-    // var removedItems = <SepetRowModel>[];
-
     for (var item in sepet.sepetRowModel!) {
       if (item.product.id == product.id) {
         sepet.total -= (item.product.price ?? 0);
@@ -76,15 +63,7 @@ class SepetController extends ChangeNotifier {
     }
 
     notifyListeners();
-    _saveHive();
-
-    // if (removedItems.isNotEmpty) {
-    //   for (var item in removedItems) {
-    //     if (sepet.sepetRowModel!.contains(item)) {
-    //       sepet.sepetRowModel!.remove(item);
-    //     }
-    //   }
-    // }
+    _iservice.save(sepet.toJson());
   }
 
   void removeAllProduct(ProductModel product) {
@@ -101,32 +80,17 @@ class SepetController extends ChangeNotifier {
     if (removedItems.isNotEmpty) {
       sepet.sepetRowModel!.removeWhere((item) => removedItems.contains(item));
       notifyListeners();
-      _saveHive();
+      _iservice.save(sepet.toJson());
     }
   }
 
   void _getSepetValue() {
-    _getHive().then((value) {
+    _iservice.get(AppConstants.hiveSepetKey).then((value) {
       if (null != value) {
         sepet = SepetModel.fromJson(value);
         notifyListeners();
       }
     });
-  }
-
-  Future<void> _saveHive() async {
-    var box = await Hive.openBox(AppConstants.hiveSepetKey);
-    var json = sepet.toJson();
-    box.put(AppConstants.hiveSepetKey, jsonEncode(json));
-  }
-
-  Future<Map<String, dynamic>?> _getHive() async {
-    var box = await Hive.openBox(AppConstants.hiveSepetKey);
-    var value = box.get(AppConstants.hiveSepetKey);
-    if (value != null) {
-      return jsonDecode(value);
-    }
-    return null;
   }
 }
 
