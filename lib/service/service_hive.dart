@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -19,6 +18,8 @@ class ServiceHive implements IService {
 
   @override
   Future<Map<String, dynamic>?> get(String key) async {
+    await isInitHive();
+
     var box = await Hive.openBox(key);
     var value = box.get(key);
     if (value != null) {
@@ -27,8 +28,17 @@ class ServiceHive implements IService {
     return null;
   }
 
+  static bool _initHive = false;
+  Future<void> isInitHive() async {
+    if (!_initHive) {
+      await Hive.initFlutter();
+      _initHive = true;
+    }
+  }
+
   @override
   Future<bool> save(Map<String, dynamic> json) async {
+    await isInitHive();
     var box = await Hive.openBox(AppConstants.hiveSepetKey);
     box.put(AppConstants.hiveSepetKey, jsonEncode(json));
     return true;

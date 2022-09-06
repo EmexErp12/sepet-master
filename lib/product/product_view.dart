@@ -1,6 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:sepet/command/adisyon.dart';
+import 'package:sepet/command/mutfak.dart';
+import 'package:sepet/deneme.dart';
 import 'package:sepet/product/product_model.dart';
 import 'package:sepet/sepet/basket_list_view.dart';
 import '../components/basket_widget.dart';
@@ -83,7 +84,10 @@ class _ProductViewState extends State<ProductView> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Adisyon().execute();
+            Mutfak().execute();
+          },
           child: StreamBuilder(
               initialData: 'ali',
               stream: null, //getRandomValues(),

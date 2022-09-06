@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import 'product/product_view.dart';
 import 'utilities/app_constants.dart';
 
 Future<void> main() async {
-  await Hive.initFlutter();
   runApp(
     const ProviderScope(child: MyApp()),
   );
