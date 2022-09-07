@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sepet/command/adisyon.dart';
-import 'package:sepet/command/mutfak.dart';
-import 'package:sepet/deneme.dart';
+import 'package:sepet/adaptor/adapters/getir_adapter.dart';
+import 'package:sepet/adaptor/adapters/yemek_sepeti_adapter.dart';
+import 'package:sepet/adaptor/contact.dart';
+import 'package:sepet/adaptor/iadapter.dart';
 import 'package:sepet/product/product_model.dart';
 import 'package:sepet/sepet/basket_list_view.dart';
 import '../components/basket_widget.dart';
@@ -85,8 +86,17 @@ class _ProductViewState extends State<ProductView> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Adisyon().execute();
-            Mutfak().execute();
+            // Adisyon().execute();
+            // Mutfak().execute();
+
+            List<IAdapter> adapters = [GetirAdapter(), YemekSepetiAdapter()];
+
+            for (var adaptor in adapters) {
+              List<Contact> contacts = adaptor.getContacts();
+              for (var contact in contacts) {
+                contact.save();
+              }
+            }
           },
           child: StreamBuilder(
               initialData: 'ali',
